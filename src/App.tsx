@@ -3,20 +3,21 @@ import "./App.css";
 import CommandParser from "./services/CommandParser";
 
 function App() {
-  const [input, setInput] = useState();
+  const [input, setInput] = useState<string>();
   const onChangeHandler = async (event: FormEvent): Promise<void> => {
     event.preventDefault();
     try {
       const reader = new FileReader();
-      reader.onload = async (event: FormEvent): Promise<void> => {
-        const text: string = event.target ? event.target.result : null;
+      reader.onload = async (event: ProgressEvent<FileReader>): Promise<void> => {
+        const text: string = event.target ? event.target.result as string : '';
         if (text) {
           setInput(text);
           const parser = new CommandParser(text);
           parser.parse();
         }
       };
-      await reader.readAsText(event.target.files[0]);
+    
+      await reader.readAsText((event.target as HTMLInputElement).files[0]);
     } catch (error) {
       console.log(`Error occured while reading file: ${error.message}`);
     }
