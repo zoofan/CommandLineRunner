@@ -42,12 +42,13 @@ function App() {
     <div className="App">
       <section className="pageSplit">
         <div className="pageSplit__element">
-          <h3>INPUT</h3>
-          <input
+        <input
             type="file"
             name="filename"
             onChange={(event: FormEvent) => onChangeHandler(event)}
           />
+          <h3>INPUT</h3>
+         
           <p className="inputText">{input}</p>
         </div>
         <div className="pageSplit__element">
