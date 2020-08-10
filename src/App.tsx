@@ -1,22 +1,37 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useEffect } from "react";
 import "./App.css";
-import CommandParser from "./services/CommandParser";
+import CommandTaskRunner from "./services/CommandTastRunner";
+import text from "./data/data";
 
 function App() {
-  const [input, setInput] = useState<string>();
+  const [input, setInput] = useState<string>(text);
+  const [outPut, setOutPut] = useState<Array<string>>([]);
+
+  useEffect(() => {
+    if (input) {
+      const commandTaskRunner = new CommandTaskRunner();
+      let results: Array<string> = commandTaskRunner.run(input);
+      setOutPut(results);
+    }
+  }, []);
+
   const onChangeHandler = async (event: FormEvent): Promise<void> => {
-    event.preventDefault();
     try {
       const reader = new FileReader();
-      reader.onload = async (event: ProgressEvent<FileReader>): Promise<void> => {
-        const text: string = event.target ? event.target.result as string : '';
+      reader.onload = async (
+        event: ProgressEvent<FileReader>
+      ): Promise<void> => {
+        const text: string = event.target
+          ? (event.target.result as string)
+          : "";
         if (text) {
           setInput(text);
-          const parser = new CommandParser(text);
-          parser.parse();
+          const commandTaskRunner = new CommandTaskRunner();
+          let results: Array<string> = commandTaskRunner.run(text);
+          setOutPut(results);
         }
       };
-    
+
       await reader.readAsText((event.target as HTMLInputElement).files[0]);
     } catch (error) {
       console.log(`Error occured while reading file: ${error.message}`);
@@ -25,22 +40,21 @@ function App() {
 
   return (
     <div className="App">
-      <section className="m-halfbleed">
-        <div className="m-halfbleed__element">
+      <section className="pageSplit">
+        <div className="pageSplit__element">
+          <h3>INPUT</h3>
           <input
             type="file"
             name="filename"
             onChange={(event: FormEvent) => onChangeHandler(event)}
           />
-          <p className="text-center">{input}</p>
+          <p className="inputText">{input}</p>
         </div>
-        <div className="m-halfbleed__element">
-          <h2>
-            This is an awesome example of a flexbox wrapper which contains two
-            elements that are also flexbox wrappers to vertical align their own
-            content.
-          </h2>
-          <p>See the code in the CSS tab</p>
+        <div className="pageSplit__element">
+          <h3>OUTPUT</h3>
+          {outPut.map((line) => {
+            return <span>{line}</span>;
+          })}
         </div>
       </section>
     </div>

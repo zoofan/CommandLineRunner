@@ -12,11 +12,11 @@ code {
     monospace;
 }
 
-.m-halfbleed {
+.pageSplit {
   min-height: 100vh;
   display: flex;
 }
-.m-halfbleed__element {
+.pageSplit__element {
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 100%;
@@ -25,21 +25,19 @@ code {
   flex-direction: column;
   justify-content: center;
 }
-.m-halfbleed__element:first-child {
+.pageSplit__element:first-child {
   color: #ffffff;
   background: #00a7b4;
 }
-.m-halfbleed__element:last-child {
-  color: #3dbe8b;
-}
-.m-halfbleed__element > * {
+.pageSplit__element > * {
   flex-grow: 0;
   flex-shrink: 1;
   flex-basis: auto;
-  align-self: center;
+  text-align: left;
+  white-space: pre;
 }
 @media only screen and (max-width: 768px) {
-  .m-halfbleed {
+  .pageSplit {
     flex-direction: column;
   }
 }

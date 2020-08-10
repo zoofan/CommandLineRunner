@@ -1,4 +1,5 @@
-CREATE
+const text = `CREATE fruits
+CREATE vegetables
 CREATE grains
 CREATE fruits/apples
 CREATE fruits/apples/fuji
@@ -12,4 +13,6 @@ MOVE vegetables foods
 LIST
 DELETE fruits/apples
 DELETE foods/fruits/apples
-LIST
+LIST`;
+
+export default text;
